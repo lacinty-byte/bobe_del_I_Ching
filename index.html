@@ -6,62 +6,58 @@
   <style>
     body { font-family: Georgia, serif; text-align:center; margin:40px; background:#fdf6e3; color:#333; }
     h1 { color:#b23a48; }
-    .imgwrap { display:flex; gap:24px; justify-content:center; align-items:flex-start; flex-wrap:wrap; }
-    img { max-width:320px; height:auto; border:0; }
-    button { margin-top:20px; font-size:1.1rem; padding:10px 16px; border-radius:10px; border:none; background:#b23a48; color:#fff; cursor:pointer; }
+    .wrap { display:flex; gap:24px; justify-content:center; align-items:flex-start; flex-wrap:wrap; }
+    .card { max-width:340px; }
+    img { max-width:320px; height:auto; display:block; margin:12px auto; }
+    button { margin-top:20px; font-size:1.05rem; padding:10px 16px; border-radius:10px; border:none; background:#b23a48; color:#fff; cursor:pointer; }
     button:hover { background:#922d3a; }
   </style>
 </head>
 <body>
   <h1>🔮 La Bobe del I Ching</h1>
-  <p id="resultado">Cargando…</p>
+  <p id="titulo">Cargando…</p>
 
-  <div class="imgwrap">
-    <figure>
-      <img id="hexagrama-local" alt="Hexagrama local" />
-      <figcaption>Imagen local (repo)</figcaption>
-    </figure>
-
-    <figure>
-      <img id="hexagrama-wiki" alt="Hexagrama Wikipedia" />
-      <figcaption>Wikipedia (Commons)</figcaption>
-    </figure>
+  <div class="wrap">
+    <div class="card">
+      <h3>Imagen local</h3>
+      <img id="imgLocal" alt="Hexagrama local">
+    </div>
+    <div class="card">
+      <h3>Wikipedia (Commons)</h3>
+      <img id="imgWiki" alt="Hexagrama Wikipedia">
+    </div>
   </div>
 
   <button id="otra">Otra consulta</button>
 
   <script>
-    function urlWikipedia(numero) {
-      // Formatear con 2 dígitos: 01..64
-      const xx = String(numero).padStart(2, '0');
-      // Special:FilePath resuelve automáticamente la ruta real del archivo
-      // ?width=300 devuelve rasterizado a ~300px (evita problemas de CORS con SVG inline)
-      return `https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-${xx}.svg?width=300`;
+    const JSON_URL = "./hexagramas.json"; // o URL absoluta en GitHub Pages
+
+    let data = [];
+
+    async function cargarDatos() {
+      const res = await fetch(JSON_URL, { cache: "no-cache" });
+      data = await res.json();
     }
 
-    function urlLocal(numero) {
-      // Tu archivo local en el raíz: hexagramaN.png (ajustá si usás otra convención)
-      return `hexagrama${numero}.png`;
+    function sortear() {
+      const i = Math.floor(Math.random() * data.length);
+      const h = data[i];
+
+      document.getElementById("titulo").textContent =
+        `Hexagrama ${h.number} — ${h.name}`;
+
+      document.getElementById("imgLocal").src = h.local;
+      document.getElementById("imgLocal").alt = `Hexagrama local ${h.number}`;
+
+      document.getElementById("imgWiki").src = h.wiki;
+      document.getElementById("imgWiki").alt = `Hexagrama Wikipedia ${h.number}`;
     }
 
-    function sortearHexagrama() {
-      const n = Math.floor(Math.random() * 64) + 1;
-      document.getElementById('resultado').textContent = `Tu hexagrama es el número ${n}`;
-
-      const imgLocal = document.getElementById('hexagrama-local');
-      const imgWiki  = document.getElementById('hexagrama-wiki');
-
-      imgLocal.src = urlLocal(n);
-      imgLocal.alt = `Hexagrama local ${n}`;
-
-      imgWiki.src = urlWikipedia(n);
-      imgWiki.alt = `Hexagrama Wikipedia ${n}`;
-    }
-
-    // Ejecutar al cargar
-    window.addEventListener('DOMContentLoaded', () => {
-      sortearHexagrama();
-      document.getElementById('otra').addEventListener('click', sortearHexagrama);
+    window.addEventListener("DOMContentLoaded", async () => {
+      await cargarDatos();
+      sortear();
+      document.getElementById("otra").addEventListener("click", sortear);
     });
   </script>
 </body>
