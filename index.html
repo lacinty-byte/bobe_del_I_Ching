@@ -1,61 +1,68 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Oráculo de la Bobe</title>
   <style>
-    body {
-      font-family: "Georgia", serif;
-      text-align: center;
-      margin: 40px;
-      background: #fdf6e3;
-      color: #333;
-    }
-    #hexagrama-img, #wiki-img {
-      max-width: 300px;
-      margin: 20px auto;
-      display: block;
-    }
-    h1 { color: #b23a48; }
+    body { font-family: Georgia, serif; text-align:center; margin:40px; background:#fdf6e3; color:#333; }
+    h1 { color:#b23a48; }
+    .imgwrap { display:flex; gap:24px; justify-content:center; align-items:flex-start; flex-wrap:wrap; }
+    img { max-width:320px; height:auto; border:0; }
+    button { margin-top:20px; font-size:1.1rem; padding:10px 16px; border-radius:10px; border:none; background:#b23a48; color:#fff; cursor:pointer; }
+    button:hover { background:#922d3a; }
   </style>
 </head>
 <body>
   <h1>🔮 La Bobe del I Ching</h1>
-  <p id="resultado"></p>
-  <img id="hexagrama-img" src="" alt="Hexagrama local">
-  <img id="wiki-img" src="" alt="Hexagrama Wikipedia">
+  <p id="resultado">Cargando…</p>
+
+  <div class="imgwrap">
+    <figure>
+      <img id="hexagrama-local" alt="Hexagrama local" />
+      <figcaption>Imagen local (repo)</figcaption>
+    </figure>
+
+    <figure>
+      <img id="hexagrama-wiki" alt="Hexagrama Wikipedia" />
+      <figcaption>Wikipedia (Commons)</figcaption>
+    </figure>
+  </div>
+
+  <button id="otra">Otra consulta</button>
 
   <script>
-    // Mapeo de Wikipedia: numero -> nombre de archivo
-    // (ejemplo: 1 y 57, podés completarlo para los 64)
-    const wikiMap = {
-      1: "Iching-hexagram-01.svg",
-      57: "Iching-hexagram-57.svg",
-      // ...agregar el resto 02 a 64...
-    };
-
-    function sortearHexagrama() {
-      let numero = Math.floor(Math.random() * 64) + 1;
-
-      // Mostrar número
-      document.getElementById("resultado").innerText =
-        "Tu hexagrama es el número " + numero;
-
-      // Mostrar imagen local (hexagramaN.png en raíz del repo)
-      document.getElementById("hexagrama-img").src = `hexagrama${numero}.png`;
-
-      // Mostrar imagen de Wikipedia si está en el mapa
-      if (wikiMap[numero]) {
-        document.getElementById("wiki-img").src =
-          `https://upload.wikimedia.org/wikipedia/commons/` +
-          `thumb/d/dx/${wikiMap[numero]}/300px-${wikiMap[numero]}`;
-      } else {
-        document.getElementById("wiki-img").alt = "No disponible en Wikipedia";
-      }
+    function urlWikipedia(numero) {
+      // Formatear con 2 dígitos: 01..64
+      const xx = String(numero).padStart(2, '0');
+      // Special:FilePath resuelve automáticamente la ruta real del archivo
+      // ?width=300 devuelve rasterizado a ~300px (evita problemas de CORS con SVG inline)
+      return `https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-${xx}.svg?width=300`;
     }
 
-    // Ejecuta al cargar la página
-    window.onload = sortearHexagrama;
+    function urlLocal(numero) {
+      // Tu archivo local en el raíz: hexagramaN.png (ajustá si usás otra convención)
+      return `hexagrama${numero}.png`;
+    }
+
+    function sortearHexagrama() {
+      const n = Math.floor(Math.random() * 64) + 1;
+      document.getElementById('resultado').textContent = `Tu hexagrama es el número ${n}`;
+
+      const imgLocal = document.getElementById('hexagrama-local');
+      const imgWiki  = document.getElementById('hexagrama-wiki');
+
+      imgLocal.src = urlLocal(n);
+      imgLocal.alt = `Hexagrama local ${n}`;
+
+      imgWiki.src = urlWikipedia(n);
+      imgWiki.alt = `Hexagrama Wikipedia ${n}`;
+    }
+
+    // Ejecutar al cargar
+    window.addEventListener('DOMContentLoaded', () => {
+      sortearHexagrama();
+      document.getElementById('otra').addEventListener('click', sortearHexagrama);
+    });
   </script>
 </body>
 </html>
