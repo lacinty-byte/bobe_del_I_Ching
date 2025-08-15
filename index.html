@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Oráculo de la Bobe</title>
+  <style>
+    body {
+      font-family: "Georgia", serif;
+      text-align: center;
+      margin-top: 80px;
+      background: #fdf6e3;
+      color: #333;
+    }
+    button {
+      font-size: 1.5em;
+      padding: 15px 30px;
+      border-radius: 10px;
+      border: none;
+      background: #b23a48;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #922d3a;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔮 La Bobe del I Ching</h1>
+  <p>Presioná el botón y recibí tu hexagrama.</p>
+  <button onclick="tirarHexagrama()">Consultar</button>
+
+  <script>
+    function tirarHexagrama() {
+      // número aleatorio entre 1 y 64
+      let numero = Math.floor(Math.random() * 64) + 1;
+      // ruta de la imagen (ajustar según tus archivos)
+      let url = `hexagramas/hexagrama${numero}.png`;
+      // redirige a la imagen
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>
