@@ -7,38 +7,55 @@
     body {
       font-family: "Georgia", serif;
       text-align: center;
-      margin-top: 80px;
+      margin: 40px;
       background: #fdf6e3;
       color: #333;
     }
-    button {
-      font-size: 1.5em;
-      padding: 15px 30px;
-      border-radius: 10px;
-      border: none;
-      background: #b23a48;
-      color: white;
-      cursor: pointer;
+    #hexagrama-img, #wiki-img {
+      max-width: 300px;
+      margin: 20px auto;
+      display: block;
     }
-    button:hover {
-      background: #922d3a;
-    }
+    h1 { color: #b23a48; }
   </style>
 </head>
 <body>
   <h1>🔮 La Bobe del I Ching</h1>
-  <p>Presioná el botón y recibí tu hexagrama.</p>
-  <button onclick="tirarHexagrama()">Consultar</button>
+  <p id="resultado"></p>
+  <img id="hexagrama-img" src="" alt="Hexagrama local">
+  <img id="wiki-img" src="" alt="Hexagrama Wikipedia">
 
   <script>
-    function tirarHexagrama() {
-      // número aleatorio entre 1 y 64
+    // Mapeo de Wikipedia: numero -> nombre de archivo
+    // (ejemplo: 1 y 57, podés completarlo para los 64)
+    const wikiMap = {
+      1: "Iching-hexagram-01.svg",
+      57: "Iching-hexagram-57.svg",
+      // ...agregar el resto 02 a 64...
+    };
+
+    function sortearHexagrama() {
       let numero = Math.floor(Math.random() * 64) + 1;
-      // ruta de la imagen (ajustar según tus archivos)
-      let url = `hexagramas/hexagrama${numero}.png`;
-      // redirige a la imagen
-      window.location.href = url;
+
+      // Mostrar número
+      document.getElementById("resultado").innerText =
+        "Tu hexagrama es el número " + numero;
+
+      // Mostrar imagen local (hexagramaN.png en raíz del repo)
+      document.getElementById("hexagrama-img").src = `hexagrama${numero}.png`;
+
+      // Mostrar imagen de Wikipedia si está en el mapa
+      if (wikiMap[numero]) {
+        document.getElementById("wiki-img").src =
+          `https://upload.wikimedia.org/wikipedia/commons/` +
+          `thumb/d/dx/${wikiMap[numero]}/300px-${wikiMap[numero]}`;
+      } else {
+        document.getElementById("wiki-img").alt = "No disponible en Wikipedia";
+      }
     }
+
+    // Ejecuta al cargar la página
+    window.onload = sortearHexagrama;
   </script>
 </body>
 </html>
