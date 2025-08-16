@@ -2,45 +2,52 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<title>Bobe + Hexagrama</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bobe + Hexagrama (compacto)</title>
 <style>
-  /* Posición y tamaño del SVG sobre el cuaderno */
-  :root { --x: 38%; --y: 70%; --w: 21%; }
+  :root { --x: 38%; --y: 57%; --w: 21%; } /* overlay fijo */
 
-  body{font-family:Georgia,serif;background:#fdf6e3;color:#333;margin:24px}
-  h1{color:#b23a48;margin:.2rem 0 .6rem}
-  .frame{position:relative;width:540px;max-width:90vw;margin:auto}
-  .base{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+  body{margin:10px;font-family:Georgia,serif;background:#fdf6e3;color:#333}
+  .app{max-width:760px;margin:0 auto}
+  .row{display:flex;gap:14px;align-items:center}
+  .frame{position:relative;width:380px;max-width:55vw}
+  .base{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
   .overlay{position:absolute;left:var(--x);top:var(--y);width:var(--w);
            transform:translate(-50%,-50%);filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
-  .meta{margin-top:.8rem;text-align:center}
-  .meta strong{color:#b23a48}
-  .acciones{margin-top:12px;text-align:center}
-  button{padding:.55rem .9rem;border:none;border-radius:8px;background:#b23a48;color:#fff;cursor:pointer}
+  .meta{min-width:220px}
+  .title{margin:0 0 4px;font-size:18px;color:#b23a48;line-height:1.2}
+  .sub{margin:0 0 10px;font-size:14px;opacity:.85}
+  button{font-size:14px;padding:8px 12px;border:none;border-radius:8px;
+         background:#b23a48;color:#fff;cursor:pointer}
   button:hover{background:#922d3a}
+
+  /* Compacto en pantallas angostas */
+  @media (max-width:520px){
+    .row{flex-direction:column;align-items:center}
+    .frame{width:92vw;max-width:420px}
+    .meta{width:100%;text-align:center}
+  }
 </style>
 </head>
 <body>
-  <h1>🔮 La Bobe del I Ching</h1>
+  <div class="app">
+    <div class="row">
+      <figure class="frame" aria-label="Imagen de la Bobe con cuaderno">
+        <img class="base" src="./hexagrama1.png" alt="Bluma con cuaderno">
+        <img id="overlay" class="overlay" alt="Hexagrama Wikipedia">
+      </figure>
 
-  <figure class="frame">
-    <!-- Tu imagen local del cuaderno -->
-    <img class="base" src="./hexagrama1.png" alt="Bluma con cuaderno">
-    <!-- SVG de Wikipedia encima -->
-    <img id="overlay" class="overlay" alt="Hexagrama Wikipedia">
-  </figure>
-
-  <p class="meta" id="meta">Cargando…</p>
-
-  <div class="acciones">
-    <button id="otra">Otra consulta</button>
+      <div class="meta">
+        <h2 class="title" id="title">Cargando…</h2>
+        <p class="sub">Tirá otra consulta si querés ver un nuevo hexagrama.</p>
+        <button id="otra">Otra consulta</button>
+      </div>
+    </div>
   </div>
 
 <script>
-  // Ruta al JSON en /data/
   const JSON_URL = "./data/hexagramas.json";
 
-  // URL de Commons que sirve el SVG renderizado (~400px ancho)
   function urlWikipedia(numero){
     const xx = String(numero).padStart(2,'0');
     return `https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-${xx}.svg?width=400`;
@@ -59,11 +66,7 @@
   }
 
   function mostrar(h){
-    // Texto: número + nombre
-    const meta = document.getElementById('meta');
-    meta.innerHTML = `Hexagrama <strong>${h.number}</strong> — <strong>${h.name}</strong>`;
-
-    // SVG sobre el cuaderno
+    document.getElementById('title').textContent = `Hexagrama ${h.number} — ${h.name}`;
     const ov = document.getElementById('overlay');
     ov.src = h.wiki || urlWikipedia(h.number);
     ov.alt = `Hexagrama Wikipedia ${h.number}`;
@@ -77,5 +80,3 @@
 </script>
 </body>
 </html>
-
-
