@@ -4,26 +4,27 @@
 <meta charset="UTF-8" />
 <title>Bobe + Hexagrama</title>
 <style>
-  :root { --x: 44%; --y: 28%; --w: 32%; } /* valores iniciales, ajustá con sliders */
+  :root { --x: 50%; --y: 60%; --w: 22%; } /* posición/tamaño inicial del SVG */
   body{font-family:Georgia,serif;background:#fdf6e3;color:#333;margin:24px}
-  h1{color:#b23a48;margin:0 0 8px}
+  h1{color:#b23a48;margin:.2rem 0 .6rem}
   .panel{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
   .frame{position:relative;width:540px;max-width:90vw}
   .base{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
-  .overlay{position:absolute;left:var(--x);top:var(--y);width:var(--w);transform:translate(-50%,-0%); /* ajustar si hace falta */
+  .overlay{position:absolute;left:var(--x);top:var(--y);width:var(--w);transform:translate(-50%,-50%);
            filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
-  .ctrls{min-width:260px}
+  .meta{margin-top:.6rem;text-align:center}
+  .meta strong{color:#b23a48}
+  .ctrls{min-width:280px}
   .row{margin:.6rem 0}
   input[type="range"]{width:100%}
-  small{opacity:.8}
-  figcaption{margin-top:6px;text-align:center;font-size:.9rem;opacity:.8}
   button{margin-top:.6rem;padding:.5rem .9rem;border:none;border-radius:8px;background:#b23a48;color:#fff;cursor:pointer}
   button:hover{background:#922d3a}
+  small{opacity:.8}
 </style>
 </head>
 <body>
-  <h1>🔮 Bobe + Hexagrama (overlay)</h1>
-  <p id="info">Cargando…</p>
+  <h1>🔮 La Bobe del I Ching</h1>
+  <p class="meta" id="meta">Cargando…</p>
 
   <div class="panel">
     <figure class="frame">
@@ -31,42 +32,60 @@
       <img class="base" src="./hexagrama1.png" alt="Bluma con cuaderno">
       <!-- SVG de Wikipedia encima -->
       <img id="overlay" class="overlay" alt="Hexagrama Wikipedia">
-      <figcaption>Ajustá X / Y / Tamaño con los deslizadores</figcaption>
     </figure>
 
     <div class="ctrls">
       <div class="row">
-        <label>Posición X (%): <span id="vx">44</span></label>
-        <input id="rx" type="range" min="0" max="100" value="44">
+        <label>Posición X (%): <span id="vx">50</span></label>
+        <input id="rx" type="range" min="0" max="100" value="50">
       </div>
       <div class="row">
-        <label>Posición Y (%): <span id="vy">28</span></label>
-        <input id="ry" type="range" min="0" max="100" value="28">
+        <label>Posición Y (%): <span id="vy">60</span></label>
+        <input id="ry" type="range" min="0" max="100" value="60">
       </div>
       <div class="row">
-        <label>Anchura (%): <span id="vw">32</span></label>
-        <input id="rw" type="range" min="10" max="80" value="32">
+        <label>Anchura (%): <span id="vw">22</span></label>
+        <input id="rw" type="range" min="10" max="80" value="22">
       </div>
       <div class="row">
-        <button id="otra">Otra tirada</button>
-        <div><small>Tip: cuando encuentres la posición ideal, copiá los valores al bloque <code>:root</code>.</small></div>
+        <button id="otra">Otra tirada</button><br>
+        <small>Tip: cuando calce perfecto, copiá estos valores al bloque <code>:root</code>.</small>
       </div>
     </div>
   </div>
 
 <script>
-  // Pide un PNG renderizado del SVG en ~400px de ancho (evita problemas de CORS)
+  // Ruta al JSON (en /data/)
+  const JSON_URL = "./data/hexagramas.json";
+
+  // Pide un PNG renderizado del SVG (~400px ancho). Evita líos de CORS.
   function urlWikipedia(numero){
     const xx = String(numero).padStart(2,'0');
     return `https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-${xx}.svg?width=400`;
   }
 
-  function sortear(){
-    const n = Math.floor(Math.random()*64)+1;
-    document.getElementById('info').textContent = `Hexagrama ${n}`;
+  let hexas = [];
+
+  async function cargarDatos(){
+    const res = await fetch(JSON_URL, { cache: "no-cache" });
+    hexas = await res.json();
+  }
+
+  function elegirRandom(){
+    const i = Math.floor(Math.random()*hexas.length);
+    return hexas[i];
+  }
+
+  function mostrar(h){
+    // Texto: número + nombre
+    const meta = document.getElementById('meta');
+    meta.innerHTML = `Hexagrama <strong>${h.number}</strong> — <strong>${h.name}</strong>`;
+
+    // SVG encima del cuaderno
     const ov = document.getElementById('overlay');
-    ov.src = urlWikipedia(n);
-    ov.alt = `Hexagrama Wikipedia ${n}`;
+    // Preferí la URL del JSON si la tenés; si no, generamos fallback
+    ov.src = h.wiki || urlWikipedia(h.number);
+    ov.alt = `Hexagrama Wikipedia ${h.number}`;
   }
 
   // Sliders → actualizan variables CSS
@@ -85,14 +104,14 @@
     vx.textContent = rx.value; vy.textContent = ry.value; vw.textContent = rw.value;
   }
 
-  // Inicial
-  document.addEventListener('DOMContentLoaded', ()=>{
+  document.addEventListener('DOMContentLoaded', async ()=>{
     upd();
-    sortear();
+    await cargarDatos();
+    mostrar(elegirRandom());
+    document.getElementById('otra').addEventListener('click', ()=> mostrar(elegirRandom()));
     rx.addEventListener('input', upd);
     ry.addEventListener('input', upd);
     rw.addEventListener('input', upd);
-    document.getElementById('otra').addEventListener('click', sortear);
   });
 </script>
 </body>
