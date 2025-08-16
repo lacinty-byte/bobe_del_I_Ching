@@ -1,65 +1,99 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Oráculo de la Bobe</title>
-  <style>
-    body { font-family: Georgia, serif; text-align:center; margin:40px; background:#fdf6e3; color:#333; }
-    h1 { color:#b23a48; }
-    .wrap { display:flex; gap:24px; justify-content:center; align-items:flex-start; flex-wrap:wrap; }
-    .card { max-width:340px; }
-    img { max-width:320px; height:auto; display:block; margin:12px auto; }
-    button { margin-top:20px; font-size:1.05rem; padding:10px 16px; border-radius:10px; border:none; background:#b23a48; color:#fff; cursor:pointer; }
-    button:hover { background:#922d3a; }
-  </style>
+<meta charset="UTF-8" />
+<title>Bobe + Hexagrama</title>
+<style>
+  :root { --x: 44%; --y: 28%; --w: 32%; } /* valores iniciales, ajustá con sliders */
+  body{font-family:Georgia,serif;background:#fdf6e3;color:#333;margin:24px}
+  h1{color:#b23a48;margin:0 0 8px}
+  .panel{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+  .frame{position:relative;width:540px;max-width:90vw}
+  .base{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+  .overlay{position:absolute;left:var(--x);top:var(--y);width:var(--w);transform:translate(-50%,-0%); /* ajustar si hace falta */
+           filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
+  .ctrls{min-width:260px}
+  .row{margin:.6rem 0}
+  input[type="range"]{width:100%}
+  small{opacity:.8}
+  figcaption{margin-top:6px;text-align:center;font-size:.9rem;opacity:.8}
+  button{margin-top:.6rem;padding:.5rem .9rem;border:none;border-radius:8px;background:#b23a48;color:#fff;cursor:pointer}
+  button:hover{background:#922d3a}
+</style>
 </head>
 <body>
-  <h1>🔮 La Bobe del I Ching</h1>
-  <p id="titulo">Cargando…</p>
+  <h1>🔮 Bobe + Hexagrama (overlay)</h1>
+  <p id="info">Cargando…</p>
 
-  <div class="wrap">
-    <div class="card">
-      <h3>Imagen local</h3>
-      <img id="imgLocal" alt="Hexagrama local">
-    </div>
-    <div class="card">
-      <h3>Wikipedia (Commons)</h3>
-      <img id="imgWiki" alt="Hexagrama Wikipedia">
+  <div class="panel">
+    <figure class="frame">
+      <!-- Tu imagen local del cuaderno -->
+      <img class="base" src="./hexagrama1.png" alt="Bluma con cuaderno">
+      <!-- SVG de Wikipedia encima -->
+      <img id="overlay" class="overlay" alt="Hexagrama Wikipedia">
+      <figcaption>Ajustá X / Y / Tamaño con los deslizadores</figcaption>
+    </figure>
+
+    <div class="ctrls">
+      <div class="row">
+        <label>Posición X (%): <span id="vx">44</span></label>
+        <input id="rx" type="range" min="0" max="100" value="44">
+      </div>
+      <div class="row">
+        <label>Posición Y (%): <span id="vy">28</span></label>
+        <input id="ry" type="range" min="0" max="100" value="28">
+      </div>
+      <div class="row">
+        <label>Anchura (%): <span id="vw">32</span></label>
+        <input id="rw" type="range" min="10" max="80" value="32">
+      </div>
+      <div class="row">
+        <button id="otra">Otra tirada</button>
+        <div><small>Tip: cuando encuentres la posición ideal, copiá los valores al bloque <code>:root</code>.</small></div>
+      </div>
     </div>
   </div>
 
-  <button id="otra">Otra consulta</button>
+<script>
+  // Pide un PNG renderizado del SVG en ~400px de ancho (evita problemas de CORS)
+  function urlWikipedia(numero){
+    const xx = String(numero).padStart(2,'0');
+    return `https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-${xx}.svg?width=400`;
+  }
 
-  <script>
-    const JSON_URL = "./data/hexagramas.json"; // o URL absoluta en GitHub Pages
+  function sortear(){
+    const n = Math.floor(Math.random()*64)+1;
+    document.getElementById('info').textContent = `Hexagrama ${n}`;
+    const ov = document.getElementById('overlay');
+    ov.src = urlWikipedia(n);
+    ov.alt = `Hexagrama Wikipedia ${n}`;
+  }
 
-    let data = [];
+  // Sliders → actualizan variables CSS
+  const root = document.documentElement;
+  const rx = document.getElementById('rx');
+  const ry = document.getElementById('ry');
+  const rw = document.getElementById('rw');
+  const vx = document.getElementById('vx');
+  const vy = document.getElementById('vy');
+  const vw = document.getElementById('vw');
 
-    async function cargarDatos() {
-      const res = await fetch(JSON_URL, { cache: "no-cache" });
-      data = await res.json();
-    }
+  function upd(){
+    root.style.setProperty('--x', rx.value+'%');
+    root.style.setProperty('--y', ry.value+'%');
+    root.style.setProperty('--w', rw.value+'%');
+    vx.textContent = rx.value; vy.textContent = ry.value; vw.textContent = rw.value;
+  }
 
-    function sortear() {
-      const i = Math.floor(Math.random() * data.length);
-      const h = data[i];
-
-      document.getElementById("titulo").textContent =
-        `Hexagrama ${h.number} — ${h.name}`;
-
-      document.getElementById("imgLocal").src = h.local;
-      document.getElementById("imgLocal").alt = `Hexagrama local ${h.number}`;
-
-      document.getElementById("imgWiki").src = h.wiki;
-      document.getElementById("imgWiki").alt = `Hexagrama Wikipedia ${h.number}`;
-    }
-
-    window.addEventListener("DOMContentLoaded", async () => {
-      await cargarDatos();
-      sortear();
-      document.getElementById("otra").addEventListener("click", sortear);
-    });
-  </script>
+  // Inicial
+  document.addEventListener('DOMContentLoaded', ()=>{
+    upd();
+    sortear();
+    rx.addEventListener('input', upd);
+    ry.addEventListener('input', upd);
+    rw.addEventListener('input', upd);
+    document.getElementById('otra').addEventListener('click', sortear);
+  });
+</script>
 </body>
 </html>
-
