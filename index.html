@@ -4,61 +4,43 @@
 <meta charset="UTF-8" />
 <title>Bobe + Hexagrama</title>
 <style>
-  :root { --x: 50%; --y: 60%; --w: 22%; } /* posición/tamaño inicial del SVG */
+  /* Posición y tamaño del SVG sobre el cuaderno */
+  :root { --x: 38%; --y: 57%; --w: 21%; }
+
   body{font-family:Georgia,serif;background:#fdf6e3;color:#333;margin:24px}
   h1{color:#b23a48;margin:.2rem 0 .6rem}
-  .panel{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
-  .frame{position:relative;width:540px;max-width:90vw}
+  .frame{position:relative;width:540px;max-width:90vw;margin:auto}
   .base{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
-  .overlay{position:absolute;left:var(--x);top:var(--y);width:var(--w);transform:translate(-50%,-50%);
-           filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
-  .meta{margin-top:.6rem;text-align:center}
+  .overlay{position:absolute;left:var(--x);top:var(--y);width:var(--w);
+           transform:translate(-50%,-50%);filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
+  .meta{margin-top:.8rem;text-align:center}
   .meta strong{color:#b23a48}
-  .ctrls{min-width:280px}
-  .row{margin:.6rem 0}
-  input[type="range"]{width:100%}
-  button{margin-top:.6rem;padding:.5rem .9rem;border:none;border-radius:8px;background:#b23a48;color:#fff;cursor:pointer}
+  .acciones{margin-top:12px;text-align:center}
+  button{padding:.55rem .9rem;border:none;border-radius:8px;background:#b23a48;color:#fff;cursor:pointer}
   button:hover{background:#922d3a}
-  small{opacity:.8}
 </style>
 </head>
 <body>
   <h1>🔮 La Bobe del I Ching</h1>
+
+  <figure class="frame">
+    <!-- Tu imagen local del cuaderno -->
+    <img class="base" src="./hexagrama1.png" alt="Bluma con cuaderno">
+    <!-- SVG de Wikipedia encima -->
+    <img id="overlay" class="overlay" alt="Hexagrama Wikipedia">
+  </figure>
+
   <p class="meta" id="meta">Cargando…</p>
 
-  <div class="panel">
-    <figure class="frame">
-      <!-- Tu imagen local del cuaderno -->
-      <img class="base" src="./hexagrama1.png" alt="Bluma con cuaderno">
-      <!-- SVG de Wikipedia encima -->
-      <img id="overlay" class="overlay" alt="Hexagrama Wikipedia">
-    </figure>
-
-    <div class="ctrls">
-      <div class="row">
-        <label>Posición X (%): <span id="vx">50</span></label>
-        <input id="rx" type="range" min="0" max="100" value="50">
-      </div>
-      <div class="row">
-        <label>Posición Y (%): <span id="vy">60</span></label>
-        <input id="ry" type="range" min="0" max="100" value="60">
-      </div>
-      <div class="row">
-        <label>Anchura (%): <span id="vw">22</span></label>
-        <input id="rw" type="range" min="10" max="80" value="22">
-      </div>
-      <div class="row">
-        <button id="otra">Otra tirada</button><br>
-        <small>Tip: cuando calce perfecto, copiá estos valores al bloque <code>:root</code>.</small>
-      </div>
-    </div>
+  <div class="acciones">
+    <button id="otra">Otra consulta</button>
   </div>
 
 <script>
-  // Ruta al JSON (en /data/)
+  // Ruta al JSON en /data/
   const JSON_URL = "./data/hexagramas.json";
 
-  // Pide un PNG renderizado del SVG (~400px ancho). Evita líos de CORS.
+  // URL de Commons que sirve el SVG renderizado (~400px ancho)
   function urlWikipedia(numero){
     const xx = String(numero).padStart(2,'0');
     return `https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-${xx}.svg?width=400`;
@@ -81,37 +63,16 @@
     const meta = document.getElementById('meta');
     meta.innerHTML = `Hexagrama <strong>${h.number}</strong> — <strong>${h.name}</strong>`;
 
-    // SVG encima del cuaderno
+    // SVG sobre el cuaderno
     const ov = document.getElementById('overlay');
-    // Preferí la URL del JSON si la tenés; si no, generamos fallback
     ov.src = h.wiki || urlWikipedia(h.number);
     ov.alt = `Hexagrama Wikipedia ${h.number}`;
   }
 
-  // Sliders → actualizan variables CSS
-  const root = document.documentElement;
-  const rx = document.getElementById('rx');
-  const ry = document.getElementById('ry');
-  const rw = document.getElementById('rw');
-  const vx = document.getElementById('vx');
-  const vy = document.getElementById('vy');
-  const vw = document.getElementById('vw');
-
-  function upd(){
-    root.style.setProperty('--x', rx.value+'%');
-    root.style.setProperty('--y', ry.value+'%');
-    root.style.setProperty('--w', rw.value+'%');
-    vx.textContent = rx.value; vy.textContent = ry.value; vw.textContent = rw.value;
-  }
-
   document.addEventListener('DOMContentLoaded', async ()=>{
-    upd();
     await cargarDatos();
     mostrar(elegirRandom());
     document.getElementById('otra').addEventListener('click', ()=> mostrar(elegirRandom()));
-    rx.addEventListener('input', upd);
-    ry.addEventListener('input', upd);
-    rw.addEventListener('input', upd);
   });
 </script>
 </body>
