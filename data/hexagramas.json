@@ -484,161 +484,162 @@
     "name": "Gé (革) – La Revolución",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-49.svg?width=300",
     "local": "hexagrama49.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Revolución trae éxito. Es propicio al mediodía.",
+    "imagen": "El fuego en el lago: la imagen de la Revolución. El noble establece el calendario y aclara el tiempo.",
+    "consejo_practico": "Aceptar los cambios necesarios con claridad y decisión.",
+    "frase_bobe": "Como olvidar aquellos días en Sierra Maestra, después del Kibutz."
   },
   {
     "number": 50,
-    "name": "Dǐng",
+    "name": "Dǐng (鼎) – La Olla",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-50.svg?width=300",
     "local": "hexagrama50.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Gran éxito. Propicio tener a dónde ir.",
+    "imagen": "El fuego bajo la madera: la imagen de la Olla. El noble endereza lo que está torcido y nutre al pueblo.",
+    "consejo_practico": "Transformar y nutrir lo esencial; cuidar lo sagrado.",
+    "frase_bobe": "La olla… la mía siempre tiene sopa."
   },
   {
     "number": 51,
-    "name": "Zhèn",
+    "name": "Zhèn (震) – Lo Suscitativo, el Trueno",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-51.svg?width=300",
     "local": "hexagrama51.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito en el movimiento del trueno. Propicio perseverar.",
+    "imagen": "El trueno estremece la tierra: la imagen de lo Suscitativo. El noble, con temor y reverencia, ordena su vida.",
+    "consejo_practico": "Aceptar los sobresaltos como llamados a despertar.",
+    "frase_bobe": "El trueno… como cuando me entero del precio de la carne."
   },
   {
     "number": 52,
-    "name": "Gèn",
+    "name": "Gèn (艮) – La Inmovilidad, la Montaña",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-52.svg?width=300",
     "local": "hexagrama52.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito en la quietud. Propicio detenerse en lo correcto.",
+    "imagen": "La montaña se eleva: la imagen de la Inmovilidad. El noble no mueve sus pensamientos en medio de la confusión.",
+    "consejo_practico": "Encontrar paz en la quietud y cultivar la calma.",
+    "frase_bobe": "Inmovilidad… como yo cuando me siento en el sillón después de almorzar."
   },
   {
     "number": 53,
-    "name": "Jiàn",
+    "name": "Jiàn (漸) – El Progreso Gradual",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-53.svg?width=300",
     "local": "hexagrama53.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito en el avance lento y constante.",
+    "imagen": "En la montaña crece el árbol: la imagen del Progreso Gradual. El noble se mantiene firme y cultivado.",
+    "consejo_practico": "Avanzar poco a poco, sin apresurarse.",
+    "frase_bobe": "Gradual… Como la dieta de Raquelita: un kilo menos por año."
   },
   {
     "number": 54,
-    "name": "Guī Mèi",
+    "name": "Guī Mèi (歸妹) – La Doncella que se Casa",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-54.svg?width=300",
     "local": "hexagrama54.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito incierto. No es propicio emprender nada grande.",
+    "imagen": "El trueno bajo el lago: la imagen de la Doncella que se Casa. El noble comprende lo transitorio de las cosas.",
+    "consejo_practico": "No buscar grandes logros en situaciones poco firmes.",
+    "frase_bobe": "Ya te dije que me casé 5 veces, ¿no?"
   },
   {
     "number": 55,
     "name": "Fēng",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-55.svg?width=300",
     "local": "hexagrama55.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito en la plenitud. Propicio perseverar.",
+    "imagen": "El trueno y el relámpago se encuentran: la imagen de la Abundancia. El noble distribuye bendiciones y anuncia decretos.",
+    "consejo_practico": "Vivir con gratitud en tiempos de plenitud.",
+    "frase_bobe": "Abundancia... como cuando me metí sin querer en el vestuario de veteranos de CISSAB."
   },
   {
     "number": 56,
-    "name": "Lǚ",
+    "name": "Lǚ (旅) – El Viajero",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-56.svg?width=300",
     "local": "hexagrama56.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito en el viaje si hay modestia y prudencia.",
+    "imagen": "El fuego sobre la montaña: la imagen del Viajero. El noble es claro y cuidadoso en sus asuntos.",
+    "consejo_practico": "Viajar con respeto; ser huésped correcto en tierra ajena.",
+    "frase_bobe": "Como cuando hice dedo para llegar a Eilat."
   },
   {
     "number": 57,
-    "name": "Xùn",
+    "name": " Xùn (巽) – Lo Suave, el Viento",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-57.svg?width=300",
     "local": "hexagrama57.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito en lo suave y penetrante.",
+    "imagen": "El viento sopla sin cesar: la imagen de lo Suave. El noble repite sus mandatos y establece orden.",
+    "consejo_practico": "Influir suavemente, como el viento que penetra en todo.",
+    "frase_bobe": "Suave… como el strudel que hacía la abuela."
   },
   {
     "number": 58,
-    "name": "Duì",
+    "name": "Duì (兌) – Lo Sereno, el Lago",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-58.svg?width=300",
     "local": "hexagrama58.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito en la alegría y la serenidad.",
+    "imagen": "Los lagos se unen: la imagen de lo Sereno. El noble se une con amigos y comparte palabras alegres.",
+    "consejo_practico": "Cultivar la alegría compartida; hablar con sinceridad.",
+    "frase_bobe": "Serenidad… como yo después de un buen vermut."
   },
   {
     "number": 59,
-    "name": "Huàn",
+    "name": "Huàn (渙) – La Disolución",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-59.svg?width=300",
     "local": "hexagrama59.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito en la dispersión de lo negativo.",
+    "imagen": "El viento sobre el agua: la imagen de la Disolución. Los antiguos reyes ofrecían sacrificios para unir al pueblo.",
+    "consejo_practico": "Disolver tensiones y unificar lo disperso.",
+    "frase_bobe": "Disolución… como el azúcar en mi café con leche."
   },
   {
     "number": 60,
-    "name": "Jié",
+    "name": "Jié (節) – La Limitación",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-60.svg?width=300",
     "local": "hexagrama60.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito al poner límites. Propicio la moderación.",
+    "imagen": "El agua sobre el lago: la imagen de la Limitación. El noble mide la cantidad y modera el exceso.",
+    "consejo_practico": "Aceptar la necesidad de límites; no todo puede ser ilimitado.",
+    "frase_bobe": "Lali Mitación. Prefiero a Lali Esposito"
   },
   {
     "number": 61,
-    "name": "Zhōng Fú",
+    "name": "Zhōng Fú (中孚) – La Verdad Interior",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-61.svg?width=300",
     "local": "hexagrama61.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito por la sinceridad. Propicio atravesar lo grande.",
+    "imagen": "El viento sobre el lago: la imagen de la Verdad Interior. El noble discute asuntos penales con claridad y demora la ejecución.",
+    "consejo_practico": "Actuar con sinceridad y confianza; la verdad une a los corazones.",
+    "frase_bobe": "Como yo, que digo todo lo que pienso, te guste o no."
   },
   {
     "number": 62,
-    "name": "Xiǎo Guò",
+    "name": "Xiǎo Guò (小過) – La Preponderancia de lo Pequeño",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-62.svg?width=300",
     "local": "hexagrama62.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito en los asuntos pequeños. No propicio para lo grande.",
+    "imagen": "El trueno sobre la montaña: la imagen de la Preponderancia de lo Pequeño. El noble actúa con respeto en lo cotidiano.",
+    "consejo_practico": "Atender a lo pequeño y modesto; evitar las grandes ambiciones.",
+    "frase_bobe": "Después de 5 maridos, si sabré yo sobre la preponderancia de lo pequeño!"
   },
   {
     "number": 63,
-    "name": "Jì Jì",
+    "name": "Jì Jì (既濟) – Después de la Consumación",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-63.svg?width=300",
     "local": "hexagrama63.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito en lo ya logrado. Pequeño éxito en lo menor.",
+    "imagen": "El agua sobre el fuego: la imagen de lo Ya Consumado. El noble reflexiona sobre la desgracia y se protege contra ella.",
+    "consejo_practico": "Cuidar lo logrado y no confiarse en exceso.",
+    "frase_bobe": "Después de la consumación... Viene el pucho."
   },
   {
     "number": 64,
-    "name": "Wèi Jì",
+    "name": "Wèi Jì (未濟) – Antes de la Consumación",
     "wiki": "https://commons.wikimedia.org/wiki/Special:FilePath/Iching-hexagram-64.svg?width=300",
     "local": "hexagrama64.png",
-    "juicio": "",
-    "imagen": "",
-    "consejo_practico": "",
-    "frase_bobe": ""
+    "juicio": "Éxito aún no alcanzado. Propicio perseverar.",
+    "imagen": "El fuego sobre el agua: la imagen de lo No Consumado. El noble discrimina cuidadosamente entre las cosas.",
+    "consejo_practico": "Aceptar lo incompleto y seguir trabajando con perseverancia.",
+    "frase_bobe": "La torta que saco del horno y todavía está cruda en el medio."
   }
 ]
+
 
 
