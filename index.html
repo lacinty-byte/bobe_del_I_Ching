@@ -3,29 +3,34 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Bobe + Hexagrama (compacto)</title>
+<title>La Bobe del I Ching — Hexagrama</title>
 <style>
-  :root { --x: 38%; --y: 70%; --w: 21%; } /* overlay fijo */
-
+  :root { --x: 38%; --y: 70%; --w: 21%; }
   body{margin:10px;font-family:Georgia,serif;background:#fdf6e3;color:#333}
-  .app{max-width:760px;margin:0 auto}
-  .row{display:flex;gap:14px;align-items:center}
-  .frame{position:relative;width:380px;max-width:55vw}
+  .app{max-width:820px;margin:0 auto}
+  .row{display:flex;gap:16px;align-items:flex-start}
+  .frame{position:relative;width:420px;max-width:56vw}
   .base{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
-  .overlay{position:absolute;left:var(--x);top:var(--y);width:var(--w);
-           transform:translate(-50%,-50%);filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
-  .meta{min-width:220px}
-  .title{margin:0 0 4px;font-size:18px;color:#b23a48;line-height:1.2}
-  .sub{margin:0 0 10px;font-size:14px;opacity:.85}
-  button{font-size:14px;padding:8px 12px;border:none;border-radius:8px;
-         background:#b23a48;color:#fff;cursor:pointer}
+  .overlay{position:absolute;left:var(--x);top:var(--y);width:var(--w);transform:translate(-50%,-50%);filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
+  .meta{min-width:240px;flex:1}
+  .title{margin:0 0 4px;font-size:20px;color:#b23a48;line-height:1.2}
+  .sub{margin:0 10px 12px 0;font-size:14px;opacity:.85}
+  button{font-size:14px;padding:8px 12px;border:none;border-radius:8px;background:#b23a48;color:#fff;cursor:pointer}
   button:hover{background:#922d3a}
 
-  /* Compacto en pantallas angostas */
-  @media (max-width:520px){
+  dl{margin:8px 0 0 0;display:grid;grid-template-columns:140px 1fr;gap:8px 12px}
+  dt{font-weight:700;color:#222}
+  dd{margin:0}
+  .muted{opacity:.8}
+  .sep{height:1px;background:#e7d9cf;margin:10px 0}
+  .pill{display:inline-block;padding:2px 8px;font-size:12px;border-radius:999px;background:#f0e3de;margin-right:6px}
+
+  @media (max-width:560px){
     .row{flex-direction:column;align-items:center}
-    .frame{width:92vw;max-width:420px}
-    .meta{width:100%;text-align:center}
+    .frame{width:92vw;max-width:460px}
+    .meta{width:100%;text-align:left}
+    dl{grid-template-columns:1fr}
+    dt{font-size:14px}
   }
 </style>
 </head>
@@ -33,20 +38,30 @@
   <div class="app">
     <div class="row">
       <figure class="frame" aria-label="Imagen de la Bobe con cuaderno">
-        <img class="base" src="./hexagrama1.png" alt="Bluma con cuaderno">
+        <img id="base" class="base" src="./hexagrama1.png" alt="Bluma con cuaderno">
         <img id="overlay" class="overlay" alt="Hexagrama Wikipedia">
       </figure>
 
       <div class="meta">
+        <div class="pill" id="pill">Hexagrama</div>
         <h2 class="title" id="title">Cargando…</h2>
-        <p class="sub">Tirá otra consulta si querés ver un nuevo hexagrama.</p>
-        <button id="otra">Otra consulta</button>
+        <div class="sep"></div>
+        <dl>
+          <dt>Juicio</dt><dd id="juicio" class="muted">—</dd>
+          <dt>Imagen</dt><dd id="imagen" class="muted">—</dd>
+          <dt>Consejo práctico</dt><dd id="consejo" class="muted">—</dd>
+          <dt>Frase de la Bobe</dt><dd id="frase" class="muted">—</dd>
+        </dl>
+        <p style="margin-top:14px">
+          <button id="otra">Otra consulta</button>
+        </p>
       </div>
     </div>
   </div>
 
 <script>
-  const JSON_URL = "./data/hexagramas.json";
+  // Intentamos dos rutas por compatibilidad con tu estructura
+  const JSON_URLS = ["./data/hexagramas.json","./hexagramas.json"];
 
   function urlWikipedia(numero){
     const xx = String(numero).padStart(2,'0');
@@ -56,8 +71,16 @@
   let hexas = [];
 
   async function cargarDatos(){
-    const res = await fetch(JSON_URL, { cache: "no-cache" });
-    hexas = await res.json();
+    let lastError;
+    for(const url of JSON_URLS){
+      try{
+        const res = await fetch(url, { cache: "no-cache" });
+        if(!res.ok) throw new Error(res.status + " " + res.statusText);
+        hexas = await res.json();
+        return;
+      }catch(e){ lastError = e; }
+    }
+    throw lastError || new Error("No se pudo cargar hexagramas.json");
   }
 
   function elegirRandom(){
@@ -65,11 +88,23 @@
     return hexas[i];
   }
 
+  function setText(id, text){
+    const el = document.getElementById(id);
+    el.textContent = (text && String(text).trim().length) ? text : "—";
+    el.classList.toggle("muted", !(text && String(text).trim().length));
+  }
+
   function mostrar(h){
-    document.getElementById('title').textContent = `Hexagrama ${h.number} — ${h.name}`;
+    document.getElementById('pill').textContent = `Hexagrama ${h.number}`;
+    document.getElementById('title').textContent = `${h.name || ""}`.trim() ? `Hexagrama ${h.number} — ${h.name}` : `Hexagrama ${h.number}`;
     const ov = document.getElementById('overlay');
     ov.src = h.wiki || urlWikipedia(h.number);
-    ov.alt = `Hexagrama Wikipedia ${h.number}`;
+    ov.alt = `Hexagrama ${h.number}`;
+
+    setText('juicio', h.juicio);
+    setText('imagen', h.imagen);
+    setText('consejo', h.consejo_practico);
+    setText('frase', h.frase_bobe);
   }
 
   document.addEventListener('DOMContentLoaded', async ()=>{
@@ -80,4 +115,3 @@
 </script>
 </body>
 </html>
-
